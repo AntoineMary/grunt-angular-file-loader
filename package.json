@@ -38,5 +38,8 @@
   },
   "keywords": [
     "gruntplugin"
-  ]
+  ],
+  "dependencies": {
+    "ng-dependencies": "^0.2.0"
+  }
 }

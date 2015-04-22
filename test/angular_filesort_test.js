@@ -27,6 +27,7 @@ exports.angular_filesort = {
     // setup here if necessary
     done();
   },
+
   default_options: function(test) {
     test.expect(1);
 
@@ -36,6 +37,7 @@ exports.angular_filesort = {
 
     test.done();
   },
+
   custom_options: function(test) {
     test.expect(1);
 

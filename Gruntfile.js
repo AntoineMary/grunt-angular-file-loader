@@ -34,7 +34,19 @@ module.exports = function(grunt) {
         options: {
         },
         files: {
-          'tmp/default_options': ['test/fixtures/testing', 'test/fixtures/123']
+          'tmp/default_options': [
+            'test/fixtures/another.js',
+            'test/fixtures/another-factory.js',
+            'test/fixtures/circular.js',
+            'test/fixtures/circular2.js',
+            'test/fixtures/circular3.js',
+            'test/fixtures/dep-on-non-declared.js',
+            'test/fixtures/empty.js',
+            'test/fixtures/module.js',
+            'test/fixtures/module-controller.js',
+            'test/fixtures/no-deps.js',
+            'test/fixtures/yet-another.js'
+          ]
         }
       },
       custom_options: {
@@ -43,7 +55,19 @@ module.exports = function(grunt) {
           punctuation: ' !!!'
         },
         files: {
-          'tmp/custom_options': ['test/fixtures/testing', 'test/fixtures/123']
+          'tmp/custom_options': [
+            'test/fixtures/another.js',
+            'test/fixtures/another-factory.js',
+            'test/fixtures/circular.js',
+            'test/fixtures/circular2.js',
+            'test/fixtures/circular3.js',
+            'test/fixtures/dep-on-non-declared.js',
+            'test/fixtures/empty.js',
+            'test/fixtures/module.js',
+            'test/fixtures/module-controller.js',
+            'test/fixtures/no-deps.js',
+            'test/fixtures/yet-another.js'
+          ]
         }
       }
     },
