@@ -1,0 +1,42 @@
+{
+  "name": "grunt-angular-filesort",
+  "description": "Automatically sort AngularJS app files depending on module definitions and usage",
+  "version": "0.1.0",
+  "homepage": "https://bitbucket.org/AntoineMary/grunt-angular-filesort",
+  "author": {
+    "name": "Antoine Mary",
+    "email": "antoinee.mary@gmail.com",
+    "url": "https://antoinemary.io"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@bitbucket.org:AntoineMary/grunt-angular-filesort.git"
+  },
+  "bugs": {
+    "url": "https://bitbucket.org/AntoineMary/grunt-angular-filesort/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://bitbucket.org/AntoineMary/grunt-angular-filesort/blob/master/LICENSE-MIT"
+    }
+  ],
+  "engines": {
+    "node": ">= 0.8.0"
+  },
+  "scripts": {
+    "test": "grunt test"
+  },
+  "devDependencies": {
+    "grunt-contrib-jshint": "^0.9.2",
+    "grunt-contrib-clean": "^0.5.0",
+    "grunt-contrib-nodeunit": "^0.3.3",
+    "grunt": "~0.4.5"
+  },
+  "peerDependencies": {
+    "grunt": "~0.4.5"
+  },
+  "keywords": [
+    "gruntplugin"
+  ]
+}
