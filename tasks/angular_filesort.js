@@ -10,6 +10,8 @@
 
 module.exports = function(grunt) {
 
+  var ngDeps = require('ng-dependencies');
+
   // Please see the Grunt documentation for more information regarding task
   // creation: http://gruntjs.com/creating-tasks
 
@@ -21,8 +23,23 @@ module.exports = function(grunt) {
     });
 
     // Iterate over all specified file groups.
-    this.files.forEach(function(f) {
-      // Concat specified files.
+    this.files.forEach(function(file) {
+
+      file.src.filter(function(filepath){
+        if(!grunt.file.exists(filepath)){
+          grunt.log.warn('Source file "' + filepath + '" not found.');
+          return false;
+        }else{
+          console.log(ngDeps(grunt.file.read(filepath)));
+          return true;
+        }
+      });
+
+      //var deps = ngDeps(grunt.file.read(file));
+
+      //grunt.file.write(file.dest, deps);
+
+      /*// Concat specified files.
       var src = f.src.filter(function(filepath) {
         // Warn on and remove invalid source files (if nonull was set).
         if (!grunt.file.exists(filepath)) {
@@ -43,8 +60,12 @@ module.exports = function(grunt) {
       grunt.file.write(f.dest, src);
 
       // Print a success message.
-      grunt.log.writeln('File "' + f.dest + '" created.');
+      grunt.log.writeln('File "' + f.dest + '" created.');*/
     });
   });
+
+  function createTemplate(){
+
+  }
 
 };
