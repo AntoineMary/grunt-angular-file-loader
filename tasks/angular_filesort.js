@@ -47,7 +47,7 @@ module.exports = function (grunt) {
 
                 } else {
                     // Test if file is empty
-                    if (grunt.file.read(filepath).length == 0) {
+                    if (grunt.file.read(filepath).length === 0) {
                         grunt.log.error('Source file "' + filepath + '" is empty.');
                         return false;
                     }
@@ -112,7 +112,7 @@ module.exports = function (grunt) {
                 var injection;
 
                 // test if extension is supported
-                if(grunt.util.kindOf(supportedExt[ext[ext.length-1]]) == "object"){
+                if(grunt.util.kindOf(supportedExt[ext[ext.length-1]]) === "object"){
                     grunt.log.debug("extension find");
                     var page = grunt.file.read(file.dest).toString();
                     // chose right extension
@@ -127,7 +127,7 @@ module.exports = function (grunt) {
                             break;
 
                         case "jade":
-                            var jadeRegExp = new RegExp('//-\\s*' + options.startTag + '(\\s*)(\\n|\\r|.)*?//-\\s*' + options.endTag, 'gi')
+                            var jadeRegExp = new RegExp('//-\\s*' + options.startTag + '(\\s*)(\\n|\\r|.)*?//-\\s*' + options.endTag, 'gi');
                             if(page.search(jadeRegExp) > -1){
                                 injection = prepareInject(page, options.startTag, options.endTag, sortedFiles, jadeRegExp, "jade");
                             } else {
@@ -141,7 +141,7 @@ module.exports = function (grunt) {
                     grunt.log.ok(files.length +' files append to ' + file.dest);
 
                 } else {
-                    grunt.util.error('File extension : '+ ext[ext.length-1] +' not supported.')
+                    grunt.util.error('File extension : '+ ext[ext.length-1] +' not supported.');
                 }
 
             }
