@@ -1,5 +1,5 @@
 /*
- * grunt-angular-filesort
+ * grunt-angular-file-loader
  * https://bitbucket.org/AntoineMary/grunt-angular-filesort
  *
  * Copyright (c) 2015 Antoine Mary
