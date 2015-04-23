@@ -40,6 +40,7 @@
     "gruntplugin"
   ],
   "dependencies": {
-    "ng-dependencies": "^0.2.0"
+    "ng-dependencies": "^0.2.0",
+    "toposort": "^0.2.10"
   }
 }

@@ -34,7 +34,7 @@ module.exports = function(grunt) {
         options: {
         },
         files: {
-          'tmp/default_options': [
+          'test/fixtures/default_options.html': [
             'test/fixtures/another.js',
             'test/fixtures/another-factory.js',
             'test/fixtures/circular.js',
@@ -55,7 +55,7 @@ module.exports = function(grunt) {
           punctuation: ' !!!'
         },
         files: {
-          'tmp/custom_options': [
+          'tmp/custom_options.html': [
             'test/fixtures/another.js',
             'test/fixtures/another-factory.js',
             'test/fixtures/circular.js',
