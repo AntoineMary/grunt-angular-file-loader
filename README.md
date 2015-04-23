@@ -102,7 +102,7 @@ grunt.initConfig({
 });
 ```
 
-```html (file.html)
+```html
 <!doctype html>
 <html lang="en">
   <head>
@@ -133,7 +133,7 @@ grunt.initConfig({
 });
 ```
 
-```html (file.html)
+```html
 <!doctype html>
 <html lang="en">
   <head>
