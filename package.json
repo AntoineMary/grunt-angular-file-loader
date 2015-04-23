@@ -1,8 +1,8 @@
 {
-  "name": "grunt-angular-filesort",
-  "description": "Automatically sort AngularJS app files depending on module definitions and usage",
-  "version": "0.1.0",
-  "homepage": "https://bitbucket.org/AntoineMary/grunt-angular-filesort",
+  "name": "grunt-angular-file-loader",
+  "description": "Automatically sort ans inject AngularJS app files depending on module definitions and usage",
+  "version": "1.0.0",
+  "homepage": "https://bitbucket.org/AntoineMary/grunt-angular-file-loader",
   "author": {
     "name": "Antoine Mary",
     "email": "antoinee.mary@gmail.com",
@@ -10,15 +10,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@bitbucket.org:AntoineMary/grunt-angular-filesort.git"
+    "url": "git@bitbucket.org:AntoineMary/grunt-angular-file-loader.git"
   },
   "bugs": {
-    "url": "https://bitbucket.org/AntoineMary/grunt-angular-filesort/issues"
+    "url": "https://bitbucket.org/AntoineMary/grunt-angular-file-loader/issues"
   },
   "licenses": [
     {
       "type": "MIT",
-      "url": "https://bitbucket.org/AntoineMary/grunt-angular-filesort/blob/master/LICENSE-MIT"
+      "url": "https://bitbucket.org/AntoineMary/grunt-angular-fileloader/blob/master/LICENSE-MIT"
     }
   ],
   "engines": {
@@ -37,7 +37,12 @@
     "grunt": "~0.4.5"
   },
   "keywords": [
-    "gruntplugin"
+    "gruntplugin",
+    "angular",
+    "angularjs",
+    "filesort",
+    "inject",
+    "injection"
   ],
   "dependencies": {
     "ng-dependencies": "^0.2.0",
