@@ -29,7 +29,7 @@ module.exports = function(grunt) {
     },
 
     // Configuration to be run (and then tested).
-    angular_filesort: {
+    angular_file_loader: {
       default_options: {
         options: {
         },
@@ -51,11 +51,11 @@ module.exports = function(grunt) {
       },
       custom_options: {
         options: {
-          separator: ': ',
-          punctuation: ' !!!'
+          startTag: 'test',
+          endTag: 'endtest'
         },
         files: {
-          'tmp/custom_options.html': [
+          'test/fixtures/custom_options.html': [
             'test/fixtures/another.js',
             'test/fixtures/another-factory.js',
             'test/fixtures/circular.js',
@@ -89,7 +89,7 @@ module.exports = function(grunt) {
 
   // Whenever the "test" task is run, first clean the "tmp" dir, then run this
   // plugin's task(s), then test the result.
-  grunt.registerTask('test', ['clean', 'angular_filesort', 'nodeunit']);
+  grunt.registerTask('test', ['clean', 'angular_file_loader', 'nodeunit']);
 
   // By default, lint and run all tests.
   grunt.registerTask('default', ['jshint', 'test']);

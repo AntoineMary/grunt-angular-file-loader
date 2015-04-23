@@ -22,7 +22,7 @@ module.exports = function (grunt) {
     // Please see the Grunt documentation for more information regarding task
     // creation: http://gruntjs.com/creating-tasks
 
-    grunt.registerMultiTask('angular_filesort', 'Automatically sort AngularJS app files depending on module definitions and usage', function () {
+    grunt.registerMultiTask('angular_file_loader', 'Automatically sort and inject AngularJS app files depending on module definitions and usage', function () {
         // Merge task-specific and/or target-specific options with these defaults.
         var options = this.options({
             startTag : 'angular',
@@ -35,9 +35,11 @@ module.exports = function (grunt) {
 
         // Iterate over all specified file groups.
         this.files.forEach(function (file) {
+            grunt.log.debug("Iteration though file group");
 
             // Iterate over each file of each group.
             file.src.filter(function (filepath) {
+                grunt.log.debug("Iteration though file of group");
 
                 if (!grunt.file.exists(filepath)) {
                     grunt.log.warn('Source file "' + filepath + '" not found.');
@@ -51,22 +53,23 @@ module.exports = function (grunt) {
                     }
 
                     var deps;
-
                     try {
+                        grunt.log.debug("Defining deps");
                         deps = ngDeps(grunt.file.read(filepath));
                     } catch (error) {
-
                         grunt.warn.error('Error in parsing "' + filepath + '", ' + error.message);
                         return false;
                     }
 
                     if (deps.modules) {
+                        grunt.log.debug("deps.modules");
                         Object.keys(deps.modules).forEach(function (name) {
                             angmods[name] = filepath;
                         });
                     }
 
                     if (deps.dependencies) {
+                        grunt.log.debug("deps.dependencies");
                         // Add each file with dependencies to the array to sort:
                         deps.dependencies.forEach(function (dep) {
                             if (isDependecyUsedInAnyDeclaration(dep, deps)) {
@@ -84,6 +87,7 @@ module.exports = function (grunt) {
             });
 
             // Convert all module names to actual files with declarations:
+            grunt.log.debug("Conversion");
             for (var i = 0; i < toSort.length; i++) {
                 var moduleName = toSort[i][1];
                 var declarationFile = angmods[moduleName];
@@ -97,12 +101,11 @@ module.exports = function (grunt) {
             }
 
             //Sort `files` with `toSort` as dependency tree:
+            grunt.log.debug("Sorting");
             var sortedFiles = toposort.array(files, toSort).reverse();
 
             if (!grunt.file.exists(file.dest)) {
-
                 throw grunt.util.error('Destination file "' + file.dest + '" not found.');
-
             } else {
 
                 var ext = (file.dest).split('.');
@@ -110,8 +113,8 @@ module.exports = function (grunt) {
 
                 // test if extension is supported
                 if(grunt.util.kindOf(supportedExt[ext[ext.length-1]]) == "object"){
+                    grunt.log.debug("extension find");
                     var page = grunt.file.read(file.dest).toString();
-
                     // chose right extension
                     switch(ext[ext.length-1]){
                         case "html":
@@ -161,6 +164,7 @@ module.exports = function (grunt) {
 
     function prepareInject(page, startTag, endTag, fileToInject, regExp, type){
         var parts = page.split(regExp);
+        grunt.log.debug("Injection between : "+startTag +" and "+endTag);
 
         switch(type){
             case "html" :
