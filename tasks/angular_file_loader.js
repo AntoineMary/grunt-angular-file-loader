@@ -10,12 +10,7 @@
 
 var ngDeps = require('ng-dependencies');
 var toposort = require('toposort');
-
-var ANGULAR_MODULE = 'ng';
-var supportedExt = {
-    html : { recipe : '<script src="%" type="text/javascript"></script>' },
-    jade : { recipe : 'script(src=\'%\' type=\'text/javascript\')' }
-};
+var path = require('path');
 
 module.exports = function (grunt) {
 
@@ -27,11 +22,61 @@ module.exports = function (grunt) {
         var options = this.options({
             startTag: 'angular',
             endTag: 'endangular',
-            scripts: null
+            scripts: null,
+            relative: true
         });
 
-        var scripts = [];
-        if(options.scripts != null) {
+        var ANGULAR_MODULE = 'ng';
+        var pattern = null, sortedScripts = null;
+        var supportedExt = {
+            html: {
+                recipe: '<script src="%" type="text/javascript"></script>',
+                regex: new RegExp('<!--\\s*' + options.startTag + '\\s*-->(\\s*)(\\n|\\r|.)*?<!--\\s*' + options.endTag + '\\s*-->', 'gi'),
+                comment: {
+                    start : '<!-- ',
+                    end : ' -->'
+                }
+            },
+            jade: {
+                recipe: 'script(src=\'%\' type=\'text/javascript\')',
+                regex: new RegExp('//\\s*' + options.startTag + '(\\s*)(\\n|\\r|.)*?//\\s*' + options.endTag, 'gi'),
+                comment: {
+                    start : '// ',
+                    end : ''
+                }
+            }
+        };
+
+        function whichPattern(filepath) {
+            var extension = filepath.split('.');
+            var file = grunt.file.read(filepath);
+
+            for (var index in supportedExt) {
+                if (supportedExt.hasOwnProperty(index) && file.search(supportedExt[index]["regex"]) > -1 && extension[extension.length-1] === index) {
+                    return pattern = index;
+                }
+            }
+            return pattern = null;
+        }
+
+        function isDependecyUsedInAnyDeclaration(dependency, ngDeps) {
+            if (!ngDeps.modules) {
+                return false;
+            }
+            if (dependency in ngDeps.modules) {
+                return true;
+            }
+            return Object.keys(ngDeps.modules).some(function (module) {
+                return ngDeps.modules[module].indexOf(dependency) > -1;
+            });
+
+        }
+
+        function sortScripts() {
+            var toSort = [];
+            var angmods = [];
+            var files = [];
+
             (grunt.file.expand(options.scripts)).forEach(function (file) {
 
                 if (!grunt.file.exists(file)) {
@@ -40,94 +85,41 @@ module.exports = function (grunt) {
                 } else if (grunt.file.read(file).length === 0) {
                     grunt.log.warn('Script file "' + file + '" is empty.');
 
-                } else scripts.push(file);
-            });
-        }
-
-        // Iterate over all specified file groups.
-        this.files.forEach(function (filegroup) {
-            grunt.log.debug("Iteration though file group");
-
-            filegroup.src.filter(function (file) {
-                grunt.log.debug("Working on " + file);
-
-                if (!grunt.file.exists(file)) {
-                    grunt.log.error('Script file "' + file + '" not found.');
-                    return false;
-                }
-                else if (grunt.file.read(filepath).length === 0) {
-                    grunt.log.warn('Script file "' + file + '" is empty.');
-                    return false;
-                }
-                else {
-                    try {
-                        grunt.log.debug('defining dependencies');
-                    }
-
-                }
-            })
-        });
-    })
-};
-
-        /*// Iterate over all specified file groups.
-         var files = [];
-         var angmods = {};
-         var toSort = [];
-        this.files.forEach(function (file) {
-            grunt.log.debug("Iteration though file group");
-
-            // Iterate over each file of each group.
-            file.src.filter(function (filepath) {
-                grunt.log.debug("Iteration though file of group");
-
-                if (!grunt.file.exists(filepath)) {
-                    grunt.log.warn('Source file "' + filepath + '" not found.');
-                    return false;
-
                 } else {
-                    // Test if file is empty
-                    if (grunt.file.read(filepath).length === 0) {
-                        grunt.log.error('Source file "' + filepath + '" is empty.');
-                        return false;
-                    }
+                    var deps = null;
 
-                    var deps;
                     try {
-                        grunt.log.debug("Defining deps");
-                        deps = ngDeps(grunt.file.read(filepath));
+                        grunt.log.debug("Defining dependencies of " + file);
+                        deps = ngDeps(grunt.file.read(file));
+
+                        if (deps.modules) {
+                            grunt.log.debug(deps.modules);
+
+                            Object.keys(deps.modules).forEach(function (name) {
+                                angmods[name] = file;
+                            });
+                        }
+
+                        if (deps.dependencies) {
+                            grunt.log.debug(deps.dependencies);
+                            // Add each file with dependencies to the array to sort:
+                            deps.dependencies.forEach(function (dep) {
+                                if (isDependecyUsedInAnyDeclaration(dep, deps) || dep === ANGULAR_MODULE) {
+                                    return;
+                                }
+                                toSort.push([file, dep]);
+                            });
+                        }
+
+                        files.push(file);
+
                     } catch (error) {
-                        grunt.warn.error('Error in parsing "' + filepath + '", ' + error.message);
-                        return false;
+                        grunt.warn.error('Error in parsing "' + file + '", ' + error.message);
                     }
-
-                    if (deps.modules) {
-                        grunt.log.debug("deps.modules");
-                        Object.keys(deps.modules).forEach(function (name) {
-                            angmods[name] = filepath;
-                        });
-                    }
-
-                    if (deps.dependencies) {
-                        grunt.log.debug("deps.dependencies");
-                        // Add each file with dependencies to the array to sort:
-                        deps.dependencies.forEach(function (dep) {
-                            if (isDependecyUsedInAnyDeclaration(dep, deps)) {
-                                return;
-                            }
-                            if (dep === ANGULAR_MODULE) {
-                                return;
-                            }
-                            toSort.push([filepath, dep]);
-                        });
-                    }
-
-                    files.push(filepath);
                 }
             });
 
             // Convert all module names to actual files with declarations:
-            grunt.log.debug("Conversion");
             for (var i = 0; i < toSort.length; i++) {
                 var moduleName = toSort[i][1];
                 var declarationFile = angmods[moduleName];
@@ -140,97 +132,64 @@ module.exports = function (grunt) {
                 }
             }
 
-            //Sort `files` with `toSort` as dependency tree:
-            grunt.log.debug("Sorting");
-            var sortedFiles = toposort.array(files, toSort).reverse();
+            return toposort.array(files, toSort).reverse();
+        }
 
-            if (!grunt.file.exists(file.dest)) {
-                throw grunt.util.error('Destination file "' + file.dest + '" not found.');
-            } else {
-
-                var ext = (file.dest).split('.');
-                var injection;
-
-                // test if extension is supported
-                if(grunt.util.kindOf(supportedExt[ext[ext.length-1]]) === "object"){
-                    grunt.log.debug("extension find");
-                    var page = grunt.file.read(file.dest).toString();
-                    // chose right extension
-                    switch(ext[ext.length-1]){
-                        case "html":
-                            var htmlRegExp = new RegExp('<!--\\s*' + options.startTag + '\\s*-->(\\s*)(\\n|\\r|.)*?<!--\\s*' + options.endTag + '\\s*-->', 'gi');
-                            if(page.search(htmlRegExp) > -1){
-                                injection = prepareInject(page, options.startTag, options.endTag, sortedFiles, htmlRegExp, "html");
-                            } else {
-                                grunt.warn('Can\'t find inject block');
-                            }
-                            break;
-
-                        case "jade":
-                            var jadeRegExp = new RegExp('//-\\s*' + options.startTag + '(\\s*)(\\n|\\r|.)*?//-\\s*' + options.endTag, 'gi');
-                            if(page.search(jadeRegExp) > -1){
-                                injection = prepareInject(page, options.startTag, options.endTag, sortedFiles, jadeRegExp, "jade");
-                            } else {
-                                grunt.warn('Can\'t find inject block');
-                            }
-                            break;
-                    }
-
-                    // Injection in file
-                    grunt.file.write(file.dest, injection);
-                    grunt.log.ok(files.length +' files append to ' + file.dest);
-
-                } else {
-                    grunt.util.error('File extension : '+ ext[ext.length-1] +' not supported.');
-                }
-
+        function inject(file) {
+            if (sortedScripts === null) {
+                sortedScripts = sortScripts();
             }
 
-        });
+            if(options.relative === true){
+                sortedScripts.forEach(function (script, index){
+
+                    sortedScripts[index] = path.relative(path.dirname(file), script);
+                });
+            }
+
+            var splitedFile = (grunt.file.read(file)).split(supportedExt[pattern]["regex"]);
+
+            splitedFile[1] = supportedExt[pattern]["comment"]["start"] + options.startTag + supportedExt[pattern]["comment"]["end"]+'\n';
+            sortedScripts.forEach(function (script){
+                splitedFile[1] += ((supportedExt[pattern]["recipe"]).replace('%',script))+'\n';
+            });
+            splitedFile[2] = supportedExt[pattern]["comment"]["start"] + options.endTag + supportedExt[pattern]["comment"]["end"];
+
+            try {
+                grunt.file.write(file, splitedFile.join(''));
+                grunt.log.ok(sortedScripts.length + " insert into" + file);
+            } catch (error){
+                throw grunt.log.error("Can't write in" + file + " error : "+ error);
+            }
+        }
+
+        if (options.scripts == null) {
+            grunt.log.error('No scripts to inject');
+        } else {
+            this.files.forEach(function (filegroup) {
+                grunt.log.debug("Iteration though file group");
+
+                filegroup.src.filter(function (file) {
+                    grunt.log.debug("Working on " + file);
+
+                    // Test if file exist
+                    if (!grunt.file.exists(file)) {
+                        grunt.log.error('Source file "' + file + '" not found.');
+                        return false;
+                    }
+                    // Test if file is not empty
+                    else if (grunt.file.read(file).length === 0) {
+                        grunt.log.error('Source file "' + file + '" is empty.');
+                        return false;
+                    }
+                    // Test if it contain the pattern
+                    else if (whichPattern(file) == null) {
+                        grunt.log.error('Source file "' + file + '" do not contain correct injection block.');
+                    } else {
+                        inject(file);
+                    }
+                });
+            });
+        }
     });
-
-    function isDependecyUsedInAnyDeclaration(dependency, ngDeps) {
-        if (!ngDeps.modules) {
-            return false;
-        }
-        if (dependency in ngDeps.modules) {
-            return true;
-        }
-        return Object.keys(ngDeps.modules).some(function (module) {
-            return ngDeps.modules[module].indexOf(dependency) > -1;
-        });
-
-    }
-
-    function prepareInject(page, startTag, endTag, fileToInject, regExp, type){
-        var parts = page.split(regExp);
-        grunt.log.debug("Injection between : "+startTag +" and "+endTag);
-
-        switch(type){
-            case "html" :
-                // Opentag
-                parts[1] = '<!-- '+ startTag +' -->\n';
-                fileToInject.forEach(function(file){
-                    parts[1] += (supportedExt.html.recipe).replace("%", file)+"\n";
-                });
-
-                // CloseTag
-                parts[2] = '<!-- '+ endTag +' -->';
-                break;
-
-            case "jade" :
-                // Opentag
-                parts[1] = '\\- '+ startTag +'\n';
-                fileToInject.forEach(function(file){
-                    parts[1] += (supportedExt.html.recipe).replace("%", file)+"\n";
-                });
-
-                // CloseTag
-                parts[2] = '\\'+ endTag;
-                break;
-
-        }
-        return parts.join("");
-    }
 };
-*/

@@ -32,11 +32,10 @@ In your project's Gruntfile, add a section named `angular_file_loader` to the da
 grunt.initConfig({
   angular_file_loader: {
     options: {
-      startTag: 'angular',
-      endTag: 'endangular'
+      scripts: ['*.js']
     },
     your_target: {
-      'index.html' : [ 'module-controller.js', 'module.js', '...' ]
+      src: ['index.html]
     },
   },
 });
@@ -89,6 +88,18 @@ Type: `String`
 Default value: `'endangular'`
 
 Tag used to identify the block's ending where files had to be injected.
+
+#### options.scripts
+Type: `String | Array | Object`
+Default value: `'null'`
+
+Script Files to inject into html/jade file.
+
+#### options.relative
+Type: `Boolean`
+Default value: `'true'`
+
+When set to `true` path to script files will be rewritten to be relative to html/jade file.
 
 ### Usage Examples
 
@@ -155,4 +166,5 @@ grunt.initConfig({
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
 ## Release History
-1.0 First Release
+*   1.0     First Release
+*   1.1     Reformat Code + Add relative and scripts options
