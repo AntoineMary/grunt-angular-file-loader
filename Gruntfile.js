@@ -32,22 +32,10 @@ module.exports = function(grunt) {
     angular_file_loader: {
       default_options: {
         options: {
+          scripts : ['test/fixtures/*.js']
         },
-        files: {
-          'test/fixtures/default_options.html': [
-            'test/fixtures/another.js',
-            'test/fixtures/another-factory.js',
-            'test/fixtures/circular.js',
-            'test/fixtures/circular2.js',
-            'test/fixtures/circular3.js',
-            'test/fixtures/dep-on-non-declared.js',
-            'test/fixtures/empty.js',
-            'test/fixtures/module.js',
-            'test/fixtures/module-controller.js',
-            'test/fixtures/no-deps.js',
-            'test/fixtures/yet-another.js'
-          ]
-        }
+        src: ['test/fixtures/*.html']
+
       },
       custom_options: {
         options: {

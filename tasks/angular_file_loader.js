@@ -25,15 +25,55 @@ module.exports = function (grunt) {
     grunt.registerMultiTask('angular_file_loader', 'Automatically sort and inject AngularJS app files depending on module definitions and usage', function () {
         // Merge task-specific and/or target-specific options with these defaults.
         var options = this.options({
-            startTag : 'angular',
-            endTag: 'endangular'
+            startTag: 'angular',
+            endTag: 'endangular',
+            scripts: null
         });
 
-        var files = [];
-        var angmods = {};
-        var toSort = [];
+        var scripts = [];
+        if(options.scripts != null) {
+            (grunt.file.expand(options.scripts)).forEach(function (file) {
+
+                if (!grunt.file.exists(file)) {
+                    grunt.log.error('Script file "' + file + '" not found.');
+
+                } else if (grunt.file.read(file).length === 0) {
+                    grunt.log.warn('Script file "' + file + '" is empty.');
+
+                } else scripts.push(file);
+            });
+        }
 
         // Iterate over all specified file groups.
+        this.files.forEach(function (filegroup) {
+            grunt.log.debug("Iteration though file group");
+
+            filegroup.src.filter(function (file) {
+                grunt.log.debug("Working on " + file);
+
+                if (!grunt.file.exists(file)) {
+                    grunt.log.error('Script file "' + file + '" not found.');
+                    return false;
+                }
+                else if (grunt.file.read(filepath).length === 0) {
+                    grunt.log.warn('Script file "' + file + '" is empty.');
+                    return false;
+                }
+                else {
+                    try {
+                        grunt.log.debug('defining dependencies');
+                    }
+
+                }
+            })
+        });
+    })
+};
+
+        /*// Iterate over all specified file groups.
+         var files = [];
+         var angmods = {};
+         var toSort = [];
         this.files.forEach(function (file) {
             grunt.log.debug("Iteration though file group");
 
@@ -193,3 +233,4 @@ module.exports = function (grunt) {
         return parts.join("");
     }
 };
+*/
