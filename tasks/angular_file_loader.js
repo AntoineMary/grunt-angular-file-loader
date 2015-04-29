@@ -135,23 +135,23 @@ module.exports = function (grunt) {
             return toposort.array(files, toSort).reverse();
         }
 
+        function resolvePath(from, to){
+            if(options.relative === true){
+                return path.relative(path.dirname(from), to);
+            }
+            return to;
+        }
+
         function inject(file) {
             if (sortedScripts === null) {
                 sortedScripts = sortScripts();
-            }
-
-            if(options.relative === true){
-                sortedScripts.forEach(function (script, index){
-
-                    sortedScripts[index] = path.relative(path.dirname(file), script);
-                });
             }
 
             var splitedFile = (grunt.file.read(file)).split(supportedExt[pattern]["regex"]);
 
             splitedFile[1] = supportedExt[pattern]["comment"]["start"] + options.startTag + supportedExt[pattern]["comment"]["end"]+'\n';
             sortedScripts.forEach(function (script){
-                splitedFile[1] += ((supportedExt[pattern]["recipe"]).replace('%',script))+'\n';
+                splitedFile[1] += ((supportedExt[pattern]["recipe"]).replace('%', resolvePath(file, script)))+'\n';
             });
             splitedFile[2] = supportedExt[pattern]["comment"]["start"] + options.endTag + supportedExt[pattern]["comment"]["end"];
 

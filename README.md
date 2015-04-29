@@ -168,3 +168,4 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 ## Release History
 *   1.0     First Release
 *   1.1     Reformat Code + Add relative and scripts options
+*   1.1.1   Correct relative path when injecting in multiple files
