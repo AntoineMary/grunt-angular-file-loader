@@ -6,6 +6,7 @@
 [![Version][version-image]][version-url]
 [![Build Status][build-image]][build-url]
 [![Dependency Status][dependencies-image]][dependencies-url]
+[![npm](https://img.shields.io/npm/dm/grunt-angular-file-loader.svg?style=flat)](https://www.npmjs.com/package/grunt-angular-file-loader)
 
 ## Getting Started
 This plugin requires Grunt `~0.4.5`
