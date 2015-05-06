@@ -1,6 +1,6 @@
 /*
- * grunt-angular-filesort
- * https://bitbucket.org/AntoineMary/grunt-angular-filesort
+ * grunt-angular-file-loader
+ * https://github.com/AntoineMary/grunt-angular-file-loader
  *
  * Copyright (c) 2015 Antoine Mary
  * Licensed under the MIT license.
@@ -17,7 +17,11 @@ module.exports = function (grunt) {
     // Please see the Grunt documentation for more information regarding task
     // creation: http://gruntjs.com/creating-tasks
 
-    grunt.registerMultiTask('angular_file_loader', 'Automatically sort and inject AngularJS app files depending on module definitions and usage', function () {
+        grunt.registerTask('angular_file_loader', 'DEPRECATED TASK. Use the "angularFileLoader" task instead', function () {
+            grunt.log.warn('The `angular_file_loader` task has been deprecated. Use `angularFileLoader` instead.');
+        });
+
+        grunt.registerMultiTask('angularFileLoader', 'Automatically sort and inject AngularJS app files depending on module definitions and usage', function () {
         // Merge task-specific and/or target-specific options with these defaults.
         var options = this.options({
             startTag: 'angular',
@@ -135,9 +139,13 @@ module.exports = function (grunt) {
             return toposort.array(files, toSort).reverse();
         }
 
-        function resolvePath(from, to){
-            if(options.relative === true){
+        function resolvePath(from, to) {
+            if (grunt.util.kindOf(options.relative) === "string") {
+                return path.relative(path.dirname(options.relative), to);
+
+            } else if (grunt.util.kindOf(options.relative) === "boolean" && options.relative === true) {
                 return path.relative(path.dirname(from), to);
+
             }
             return to;
         }

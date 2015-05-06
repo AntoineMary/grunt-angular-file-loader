@@ -29,7 +29,7 @@ module.exports = function(grunt) {
     },
 
     // Configuration to be run (and then tested).
-    angular_file_loader: {
+    angularFileLoader: {
       default_options: {
         options: {
           scripts : ['test/fixtures/*.js']
