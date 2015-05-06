@@ -30,33 +30,54 @@ module.exports = function(grunt) {
 
     // Configuration to be run (and then tested).
     angularFileLoader: {
-      default_options: {
-        options: {
-          scripts : ['test/fixtures/*.js']
-        },
-        src: ['test/fixtures/*.html']
-
+      options: {
+        scripts : ['test/fixtures/app/scripts/*.js']
       },
-      custom_options: {
+      custom_tag_html: {
         options: {
           startTag: 'test',
-          endTag: 'endtest'
+          endTag: 'endTest'
         },
-        files: {
-          'test/fixtures/custom_options.html': [
-            'test/fixtures/another.js',
-            'test/fixtures/another-factory.js',
-            'test/fixtures/circular.js',
-            'test/fixtures/circular2.js',
-            'test/fixtures/circular3.js',
-            'test/fixtures/dep-on-non-declared.js',
-            'test/fixtures/empty.js',
-            'test/fixtures/module.js',
-            'test/fixtures/module-controller.js',
-            'test/fixtures/no-deps.js',
-            'test/fixtures/yet-another.js'
-          ]
-        }
+        src: ['test/fixtures/web/html/custom_tag.html']
+      },
+      default_options_html: {
+        options: {},
+        src: ['test/fixtures/web/html/default_options.html']
+      },
+      relative_false_html: {
+        options: {
+          relative: false
+        },
+        src: ['test/fixtures/web/html/relative_false.html']
+      },
+      relative_string_html: {
+        options: {
+          relative: 'test/fixtures/app'
+        },
+        src: ['test/fixtures/web/html/relative_string.html']
+      },
+      custom_tag_jade: {
+        options: {
+          startTag: 'test',
+          endTag: 'endTest'
+        },
+        src: ['test/fixtures/web/jade/custom_tag.jade']
+      },
+      default_options_jade: {
+        options: {},
+        src: ['test/fixtures/web/jade/default_options.jade']
+      },
+      relative_false_jade: {
+        options: {
+          relative: false
+        },
+        src: ['test/fixtures/web/jade/relative_false.jade']
+      },
+      relative_string_jade: {
+        options: {
+          relative: 'test/fixtures/app'
+        },
+        src: ['test/fixtures/web/jade/relative_string.jade']
       }
     },
 
@@ -77,7 +98,7 @@ module.exports = function(grunt) {
 
   // Whenever the "test" task is run, first clean the "tmp" dir, then run this
   // plugin's task(s), then test the result.
-  grunt.registerTask('test', ['clean', 'angular_file_loader', 'nodeunit']);
+  grunt.registerTask('test', ['clean', 'angularFileLoader', 'nodeunit']);
 
   // By default, lint and run all tests.
   grunt.registerTask('default', ['jshint', 'test']);

@@ -15,6 +15,7 @@ It is based on [`gulp-angular-filesort`](https://github.com/klei/gulp-angular-fi
 It will sort and inject javascript angular files into files that you need (HTML and Jade are currently supported) 
 if some javascript files are not for angular they will be added at the end of the files list.
 
+/!\ Jade is recognised by the plugin but the injection don't handle right indent. HTML is preferred for inject
 
 If you haven't used [Grunt](http://gruntjs.com/) before, be sure to check out the [Getting Started](http://gruntjs.com/getting-started) guide, as it explains how to create a [Gruntfile](http://gruntjs.com/sample-gruntfile) as well as install and use Grunt plugins. Once you're familiar with that process, you may install this plugin with this command:
 
@@ -28,7 +29,7 @@ Once the plugin has been installed, it may be enabled inside your Gruntfile with
 grunt.loadNpmTasks('grunt-angular-file-loader');
 ```
 
-## The "angular_file_loader" task
+## The "angularFileLoader" task
 
 ### Overview
 In your project's Gruntfile, add a section named `angularFileLoader` to the data object passed into `grunt.initConfig()`.
@@ -365,6 +366,7 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 *   1.1     Reformat Code + Add relative and scripts options
 *   1.1.1   Correct relative path when injecting in multiple files
 *   1.1.2   Convert task name to camelCase, relative options can now be a folder
+*   1.1.3   Path error in windows solve, rewrite unit test
 
 https://img.shields.io/github/issues/AntoineMary/grunt-angular-file-loader.svg
 
