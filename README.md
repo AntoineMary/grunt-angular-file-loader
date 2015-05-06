@@ -368,8 +368,6 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 *   1.1.2   Convert task name to camelCase, relative options can now be a folder
 *   1.1.3   Path error in windows solve, rewrite unit test
 
-https://img.shields.io/github/issues/AntoineMary/grunt-angular-file-loader.svg
-
 [build-image]:            http://img.shields.io/travis/AntoineMary/grunt-angular-file-loader.svg?style=flat
 [build-url]:              http://travis-ci.org/AntoineMary/grunt-angular-file-loader
 
