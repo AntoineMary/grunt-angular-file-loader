@@ -113,24 +113,28 @@ html(lang='en')
 
 #### options.startTag
 Type: `String`
+
 Default value: `'angular'`
 
 Tag used to identify the block's beginning where files had to be injected.
 
 #### options.endTag
 Type: `String`
+
 Default value: `'endangular'`
 
 Tag used to identify the block's ending where files had to be injected.
 
 #### options.scripts
 Type: `String | Array | Object`
+
 Default value: `'null'`
 
 Script Files to inject into html/jade file.
 
 #### options.relative
 Type: `Boolean | String`
+
 Default value: `'true'`
 
 When set to `true` path to script files will be rewritten to be relative to html/jade file.
@@ -369,6 +373,7 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 *   1.1.2   Convert task name to camelCase, relative options can now be a folder
 *   1.1.3   Path error in windows solve, rewrite unit test
 *   1.1.4   Minor correction
+*   1.1.5   Correct error with relative : "String"
 
 [build-image]:            http://img.shields.io/travis/AntoineMary/grunt-angular-file-loader.svg?style=flat
 [build-url]:              http://travis-ci.org/AntoineMary/grunt-angular-file-loader

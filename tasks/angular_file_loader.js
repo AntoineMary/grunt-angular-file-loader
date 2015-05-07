@@ -17,16 +17,16 @@ module.exports = function (grunt) {
     // Please see the Grunt documentation for more information regarding task
     // creation: http://gruntjs.com/creating-tasks
 
-        grunt.registerTask('angular_file_loader', 'DEPRECATED TASK. Use the "angularFileLoader" task instead', function () {
-            grunt.log.warn('The `angular_file_loader` task has been deprecated. Use `angularFileLoader` instead.');
-        });
+    grunt.registerTask('angular_file_loader', 'DEPRECATED TASK. Use the "angularFileLoader" task instead', function () {
+        grunt.log.warn('The `angular_file_loader` task has been deprecated. Use `angularFileLoader` instead.');
+    });
 
-        grunt.registerMultiTask('angularFileLoader', 'Automatically sort and inject AngularJS app files depending on module definitions and usage', function () {
+    grunt.registerMultiTask('angularFileLoader', 'Automatically sort and inject AngularJS app files depending on module definitions and usage', function () {
         // Merge task-specific and/or target-specific options with these defaults.
         var options = this.options({
             startTag: 'angular',
-            endTag: 'endangular',
-            scripts: null,
+            endTag:   'endangular',
+            scripts:  null,
             relative: true
         });
 
@@ -34,19 +34,19 @@ module.exports = function (grunt) {
         var pattern = null, sortedScripts = null;
         var supportedExt = {
             html: {
-                recipe: '<script src="%" type="text/javascript"></script>',
-                regex: new RegExp('<!--\\s*' + options.startTag + '\\s*-->(\\s*)(\\n|\\r|.)*?<!--\\s*' + options.endTag + '\\s*-->', 'gi'),
+                recipe:  '<script src="%" type="text/javascript"></script>',
+                regex:   new RegExp('<!--\\s*' + options.startTag + '\\s*-->(\\s*)(\\n|\\r|.)*?<!--\\s*' + options.endTag + '\\s*-->', 'gi'),
                 comment: {
-                    start : '<!-- ',
-                    end : ' -->'
+                    start: '<!-- ',
+                    end:   ' -->'
                 }
             },
             jade: {
-                recipe: 'script(src=\'%\' type=\'text/javascript\')',
-                regex: new RegExp('//\\s*' + options.startTag + '(\\s*)(\\n|\\r|.)*?//\\s*' + options.endTag, 'gi'),
+                recipe:  'script(src=\'%\' type=\'text/javascript\')',
+                regex:   new RegExp('//\\s*' + options.startTag + '(\\s*)(\\n|\\r|.)*?//\\s*' + options.endTag, 'gi'),
                 comment: {
-                    start : '// ',
-                    end : ''
+                    start: '// ',
+                    end:   ''
                 }
             }
         };
@@ -56,7 +56,7 @@ module.exports = function (grunt) {
             var file = grunt.file.read(filepath);
 
             for (var index in supportedExt) {
-                if (supportedExt.hasOwnProperty(index) && file.search(supportedExt[index]["regex"]) > -1 && extension[extension.length-1] === index) {
+                if (supportedExt.hasOwnProperty(index) && file.search(supportedExt[index]["regex"]) > -1 && extension[extension.length - 1] === index) {
                     return pattern = index;
                 }
             }
@@ -141,7 +141,7 @@ module.exports = function (grunt) {
 
         function resolvePath(from, to) {
             if (grunt.util.kindOf(options.relative) === "string") {
-                return (path.relative(path.dirname(options.relative), to)).replace(/\\/g, '/');
+                return (path.relative((path.dirname(options.relative) === '.') ? options.relative : path.dirname(options.relative), to)).replace(/\\/g, '/');
 
             } else if (grunt.util.kindOf(options.relative) === "boolean" && options.relative === true) {
                 return (path.relative(path.dirname(from), to)).replace(/\\/g, '/');
@@ -157,17 +157,17 @@ module.exports = function (grunt) {
 
             var splitedFile = (grunt.file.read(file)).split(supportedExt[pattern]["regex"]);
 
-            splitedFile[1] = supportedExt[pattern]["comment"]["start"] + options.startTag + supportedExt[pattern]["comment"]["end"]+'\n';
-            sortedScripts.forEach(function (script){
-                splitedFile[1] += ((supportedExt[pattern]["recipe"]).replace('%', resolvePath(file, script)))+'\n';
+            splitedFile[1] = supportedExt[pattern]["comment"]["start"] + options.startTag + supportedExt[pattern]["comment"]["end"] + '\n';
+            sortedScripts.forEach(function (script) {
+                splitedFile[1] += ((supportedExt[pattern]["recipe"]).replace('%', resolvePath(file, script))) + '\n';
             });
             splitedFile[2] = supportedExt[pattern]["comment"]["start"] + options.endTag + supportedExt[pattern]["comment"]["end"];
 
             try {
                 grunt.file.write(file, splitedFile.join(''));
                 grunt.log.ok(sortedScripts.length + " insert into" + file);
-            } catch (error){
-                throw grunt.log.error("Can't write in" + file + " error : "+ error);
+            } catch (error) {
+                throw grunt.log.error("Can't write in" + file + " error : " + error);
             }
         }
 
