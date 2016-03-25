@@ -157,12 +157,13 @@ module.exports = function (grunt) {
             }
 
             var splitedFile = (grunt.file.read(file)).split(supportedExt[pattern]["regex"]);
+            var indentation = splitedFile[0].substr( splitedFile[0].lastIndexOf(EOL) + 1 );
 
             splitedFile[1] = supportedExt[pattern]["comment"]["start"] + options.startTag + supportedExt[pattern]["comment"]["end"] + EOL;
             sortedScripts.forEach(function (script) {
-                splitedFile[1] += ((supportedExt[pattern]["recipe"]).replace('%', resolvePath(file, script))) + EOL;
+                splitedFile[1] += indentation + ((supportedExt[pattern]["recipe"]).replace('%', resolvePath(file, script))) + EOL;
             });
-            splitedFile[2] = supportedExt[pattern]["comment"]["start"] + options.endTag + supportedExt[pattern]["comment"]["end"];
+            splitedFile[2] = indentation + supportedExt[pattern]["comment"]["start"] + options.endTag + supportedExt[pattern]["comment"]["end"];
 
             try {
                 grunt.file.write(file, splitedFile.join(''));

@@ -75,7 +75,7 @@ exports.angularFileLoader = {
 
     var actual = grunt.file.read('test/fixtures/web/jade/custom_tag.jade');
     var expected = grunt.file.read('test/expected/jade/custom_tag.jade');
-    test.notEqual(actual, expected, 'Injection must be done but indent is not correct');
+    test.equal(actual, expected, 'Injection must be done');
 
     test.done();
   },
@@ -86,7 +86,7 @@ exports.angularFileLoader = {
     var actual = grunt.file.read('test/fixtures/web/jade/default_options.jade');
     var expected = grunt.file.read('test/expected/jade/default_options.jade');
 
-    test.notEqual(actual, expected, 'Injection must be done but indent is not correct');
+    test.equal(actual, expected, 'Injection must be done');
 
     test.done();
   },
@@ -97,7 +97,7 @@ exports.angularFileLoader = {
     var actual = grunt.file.read('test/fixtures/web/jade/relative_false.jade');
     var expected = grunt.file.read('test/expected/jade/relative_false.jade');
 
-    test.notEqual(actual, expected, 'Injection must be done but indent is not correct');
+    test.equal(actual, expected, 'Injection must be done');
 
     test.done();
   },
@@ -108,7 +108,7 @@ exports.angularFileLoader = {
     var actual = grunt.file.read('test/fixtures/web/jade/relative_string.jade');
     var expected = grunt.file.read('test/expected/jade/relative_string.jade');
 
-    test.notEqual(actual, expected, 'Injection must be done but indent is not correct');
+    test.equal(actual, expected, 'Injection must be done');
 
     test.done();
   }
