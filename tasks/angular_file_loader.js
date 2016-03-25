@@ -119,7 +119,7 @@ module.exports = function (grunt) {
                         files.push(file);
 
                     } catch (error) {
-                        grunt.warn.error('Error in parsing "' + file + '", ' + error.message);
+                        grunt.log.error('Error in parsing "' + file + '", ' + error.message);
                     }
                 }
             });
