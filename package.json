@@ -1,7 +1,7 @@
 {
   "name": "grunt-angular-file-loader",
   "description": "Automatically sort ans inject AngularJS app files depending on module definitions and usage",
-  "version": "1.2",
+  "version": "1.2.0",
   "homepage": "https://github.com/AntoineMary/grunt-angular-file-loader",
   "author": {
     "name": "Antoine Mary",
