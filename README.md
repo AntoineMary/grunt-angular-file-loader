@@ -374,6 +374,7 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 *   1.1.3   Path error in windows solve, rewrite unit test
 *   1.1.4   Minor correction
 *   1.1.5   Correct error with relative : "String"
+*   1.2     Improvements from pull Request
 
 [build-image]:            http://img.shields.io/travis/AntoineMary/grunt-angular-file-loader.svg?style=flat
 [build-url]:              http://travis-ci.org/AntoineMary/grunt-angular-file-loader
