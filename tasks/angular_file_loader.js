@@ -167,7 +167,7 @@ module.exports = function (grunt) {
 
             try {
                 grunt.file.write(file, splitedFile.join(''));
-                grunt.log.ok(sortedScripts.length + " insert into" + file);
+                grunt.log.ok(sortedScripts.length + " files inserted into " + file);
             } catch (error) {
                 throw grunt.log.error("Can't write in" + file + " error : " + error);
             }
