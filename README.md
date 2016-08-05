@@ -141,6 +141,13 @@ When set to `true` path to script files will be rewritten to be relative to html
 When set to `false` path to script files will be rewritten to be relative to Grunfile.js
 When set to a String path to script files will be rewritten to be relative to the specified file/directory
 
+#### options.prefix
+Type: `String`
+
+Default value : `''`
+
+Add the value before each injected script.
+
 ### Usage Examples
 
 For all examples below consider the following structure :
@@ -245,7 +252,7 @@ In this example, the relative options is set to `false`, after `./app/scripts/**
 grunt.initConfig({
   angularFileLoader: {
     options: {
-      scripts: ['app/scripts/**/*.js']
+      scripts: ['app/scripts/**/*.js'],
       relative: false
     },
     default_options: {
@@ -299,14 +306,14 @@ After
 </html>
 ```
 
-#### relative : false
+#### relative : 'app'
 In this example, the relative options is set to `app` directory, after `./app/scripts/**/*.js` had been sorted they are injected into `index.html` between `<!-- angular -->` and `<!-- endangular -->`
 
 ```js
 grunt.initConfig({
   angularFileLoader: {
     options: {
-      scripts: ['app/scripts/**/*.js']
+      scripts: ['app/scripts/**/*.js'],
       relative: 'app'
     },
     default_options: {
@@ -360,11 +367,73 @@ After
 </html>
 ```
 
+#### prefix : '/'
+In this example, the prefix options is set to `/` each script that will be injected will get `/` at the beginning of its path.
+
+```js
+grunt.initConfig({
+  angularFileLoader: {
+    options: {
+      scripts: ['app/scripts/**/*.js'],
+      relatice: 'app',
+      prefix : '\'
+    },
+    default_options: {
+      src : '.tmp/index.html'
+    },
+  },
+});
+```
+
+Before
+
+```html
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+  </head>
+  <body>
+    <!-- angular -->
+    <!-- endangular -->
+  </body>
+</html>
+```
+
+After
+
+```html
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+  </head>
+  <body>
+    <!-- angular -->
+    <script src="/scripts/app/app.js" type="text/javascript"></script>
+    <script src="/scripts/components/factory/factory.js" type="text/javascript"></script>
+    <script src="/scripts/components/filter/filter.js" type="text/javascript"></script>
+    <script src="/scripts/components/directive/directive.js" type="text/javascript"></script>
+    <script src="/scripts/components/directive/directive.controller.js" type="text/javascript"></script>
+    <script src="/scripts/components/service/service.js" type="text/javascript"></script>
+    <script src="/scripts/app/part1/part1.js" type="text/javascript"></script>
+    <script src="/scripts/app/part1/part1.controller.js" type="text/javascript"></script>
+    <script src="/scripts/app/part2/part2.js" type="text/javascript"></script>
+    <script src="/scripts/app/part2/part2.controller.js" type="text/javascript"></script>
+    <script src="/scripts/app/part3/part3.js" type="text/javascript"></script>
+    <script src="/scripts/app/part3/part3.controller.js" type="text/javascript"></script>
+    <!-- endangular -->
+  </body>
+</html>
+```
+
+
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
 ## Upcoming improvement
-*   Handle indentation when injecting
 
 ## Release History
 *   1.0     First Release
@@ -376,6 +445,7 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 *   1.1.5   Correct error with relative : "String"
 *   1.2.0   Improvements from pull Request
 *   1.3.0   Fix Indent + Update Libs
+*   1.3.1   Add "prefix" option
 
 [build-image]:            http://img.shields.io/travis/AntoineMary/grunt-angular-file-loader.svg?style=flat
 [build-url]:              http://travis-ci.org/AntoineMary/grunt-angular-file-loader
