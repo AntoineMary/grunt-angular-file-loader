@@ -1,0 +1,12 @@
+// angular
+test/fixtures/app/scripts/another.js
+test/fixtures/app/scripts/yet-another.js
+test/fixtures/app/scripts/no-deps.js
+test/fixtures/app/scripts/module.js
+test/fixtures/app/scripts/module-controller.js
+test/fixtures/app/scripts/dep-on-non-declared.js
+test/fixtures/app/scripts/circular3.js
+test/fixtures/app/scripts/circular2.js
+test/fixtures/app/scripts/circular.js
+test/fixtures/app/scripts/another-factory.js
+// endangular
