@@ -50,6 +50,14 @@ module.exports = function (grunt) {
                     start: '// ',
                     end:   ''
                 }
+            },
+            txt: {
+                recipe:  '%',
+                regex:   new RegExp('//\\s*' + options.startTag + '(\\s*)(\\n|\\r|.)*?//\\s*' + options.endTag, 'gi'),
+                comment: {
+                    start: '// ',
+                    end:   ''
+                }
             }
         };
 

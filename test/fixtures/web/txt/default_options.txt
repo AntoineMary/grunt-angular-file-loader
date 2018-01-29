@@ -1,0 +1,12 @@
+// angular
+../../app/scripts/another.js
+../../app/scripts/yet-another.js
+../../app/scripts/no-deps.js
+../../app/scripts/module.js
+../../app/scripts/module-controller.js
+../../app/scripts/dep-on-non-declared.js
+../../app/scripts/circular3.js
+../../app/scripts/circular2.js
+../../app/scripts/circular.js
+../../app/scripts/another-factory.js
+// endangular

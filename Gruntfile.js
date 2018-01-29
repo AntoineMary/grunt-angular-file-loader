@@ -57,28 +57,51 @@ module.exports = function(grunt) {
         src: ['test/fixtures/web/html/relative_string.html']
       },
       custom_tag_jade: {
-        options: {
-          startTag: 'test',
-          endTag: 'endTest'
+            options: {
+                startTag: 'test',
+                endTag: 'endTest'
+            },
+            src: ['test/fixtures/web/jade/custom_tag.jade']
         },
-        src: ['test/fixtures/web/jade/custom_tag.jade']
-      },
-      default_options_jade: {
-        options: {},
-        src: ['test/fixtures/web/jade/default_options.jade']
-      },
-      relative_false_jade: {
-        options: {
-          relative: false
+        default_options_jade: {
+            options: {},
+            src: ['test/fixtures/web/jade/default_options.jade']
         },
-        src: ['test/fixtures/web/jade/relative_false.jade']
-      },
-      relative_string_jade: {
-        options: {
-          relative: 'test/fixtures/app'
+        relative_false_jade: {
+            options: {
+                relative: false
+            },
+            src: ['test/fixtures/web/jade/relative_false.jade']
         },
-        src: ['test/fixtures/web/jade/relative_string.jade']
-      }
+        relative_string_jade: {
+            options: {
+                relative: 'test/fixtures/app'
+            },
+            src: ['test/fixtures/web/jade/relative_string.jade']
+        },
+        custom_tag_txt: {
+            options: {
+                startTag: 'test',
+                endTag: 'endTest'
+            },
+            src: ['test/fixtures/web/txt/custom_tag.txt']
+        },
+        default_options_txt: {
+            options: {},
+            src: ['test/fixtures/web/txt/default_options.txt']
+        },
+        relative_false_txt: {
+            options: {
+                relative: false
+            },
+            src: ['test/fixtures/web/txt/relative_false.txt']
+        },
+        relative_string_txt: {
+            options: {
+                relative: 'test/fixtures/app'
+            },
+            src: ['test/fixtures/web/txt/relative_string.txt']
+        }
     },
 
     // Unit tests.

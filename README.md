@@ -13,10 +13,10 @@ This plugin requires Grunt `~0.4.5`
 
 It is based on [`gulp-angular-filesort`](https://github.com/klei/gulp-angular-filesort) and [`wiredep`](https://github.com/taptapship/wiredep)
 
-It will sort and inject javascript angular files into files that you need (HTML and Jade are currently supported) 
+It will sort and inject javascript angular files into files that you need (HTML, Jade, and TXT are currently supported) 
 if some javascript files are not for angular they will be added at the end of the files list.
 
-/!\ Jade is recognised by the plugin but the injection don't handle right indent. HTML is preferred for inject
+/!\ Jade is recognised by the plugin but the injection does not handle right indent. HTML is preferred for inject
 
 If you haven't used [Grunt](http://gruntjs.com/) before, be sure to check out the [Getting Started](http://gruntjs.com/getting-started) guide, as it explains how to create a [Gruntfile](http://gruntjs.com/sample-gruntfile) as well as install and use Grunt plugins. Once you're familiar with that process, you may install this plugin with this command:
 
@@ -43,8 +43,8 @@ grunt.initConfig({
     },
     your_target: {
       src: ['index.html']
-    },
-  },
+    }
+  }
 });
 ```
 
@@ -73,6 +73,11 @@ html(lang='en')
   body
     // angular
     // endangular
+```
+
+```text
+// angular
+// endangular
 ```
 
 After task run
@@ -109,6 +114,14 @@ html(lang='en')
     script(src='...', type='text/javascript')
     // endangular
 ```
+
+```text
+// angular
+app.js
+module.js
+module-controller.js
+...
+```
 ### Options
 
 #### options.startTag
@@ -130,14 +143,14 @@ Type: `String | Array | Object`
 
 Default value: `'null'`
 
-Script Files to inject into html/jade file.
+Script Files to inject into html/jade/txt file.
 
 #### options.relative
 Type: `Boolean | String`
 
 Default value: `'true'`
 
-When set to `true` path to script files will be rewritten to be relative to html/jade file.
+When set to `true` path to script files will be rewritten to be relative to html/jade/txt file.
 When set to `false` path to script files will be rewritten to be relative to Grunfile.js
 When set to a String path to script files will be rewritten to be relative to the specified file/directory
 
